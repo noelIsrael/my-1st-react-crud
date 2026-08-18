@@ -1,6 +1,5 @@
 import UserList from "./userList"
 import AddNew from "./addNew"
-
 function App() {
   return (
     <>
