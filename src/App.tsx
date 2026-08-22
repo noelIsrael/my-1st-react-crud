@@ -1,12 +1,13 @@
+import Welcome from "./Welcome"
 import UserList from "./userList"
-import AddNew from "./addNew"
+import { Routes, Route } from "react-router-dom"
 function App() {
   return (
-    <>
-    <h1>Hello Noel</h1>
-    <AddNew />
-    <UserList />
-    </>
+    <Routes>
+      <Route path="/" element={<Welcome />}/>
+      <Route path="/userList" element={<UserList/>}/>
+      <Route path="/userList/:id" element={<userProfile/>}
+    </Routes>
   )
 }
 

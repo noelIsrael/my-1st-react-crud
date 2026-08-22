@@ -1,30 +1,19 @@
 import { useState } from "react"
 import type { User } from "./userList"
 import { useMutation,useQueryClient } from "@tanstack/react-query"
+import { addUser } from "./apihandlers"
 
-const addUser = async ({newUser}: { newUser: Partial<User> }) => {
-  await fetch('http://localhost:3000/users', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: newUser.name,
-      salary: newUser.salary
-    })
-  })
-}
 
 function AddNew() {
   const [isAdding, setIsAdding] = useState(false)
   const [name, setName] = useState("");
   const [salary, setSalary] = useState(0);
-  const noni = useQueryClient()
+  const queryClient = useQueryClient()
 
   const mutationn = useMutation ({
-    mutationFn : addUser,
+    mutationFn : ({newUser}:{newUser:Partial<User>}) => addUser(newUser),
     onSuccess: ()=>{
-      noni.invalidateQueries({queryKey:['users']})
+      queryClient.invalidateQueries({queryKey:['users']})
     }})
   
   const handleAddNew = () => {
