@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-function ProfileViewBtn({id}:{id:string}){
+function ProfileViewBtn({identifyingVariable}:{identifyingVariable:string}){
     const navigate = useNavigate();
     return(
-        <button onClick={()=> navigate(`/userList/${id}`)} >View Profile</button>
+        <button onClick={()=> navigate(`/userList/${identifyingVariable}`)} >View Profile</button>
     )
 }
 export default ProfileViewBtn;

@@ -1,14 +1,7 @@
-import Welcome from "./Welcome"
-import UserList from "./userList"
-import { Routes, Route } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<Welcome />}/>
-      <Route path="/userList" element={<UserList/>}/>
-      <Route path="/userList/:id" element={<userProfile/>}
-    </Routes>
-  )
+  const mynavigator = useNavigate();
+  return <button onClick={() => mynavigator("/userList")}>Welcome</button>;
 }
 
-export default App
+export default App;

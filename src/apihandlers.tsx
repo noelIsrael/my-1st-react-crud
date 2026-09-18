@@ -1,4 +1,4 @@
-import type { User } from "./userList";
+import type { User } from "./UserList";
 export async function getData() {
   try {
     const response = await fetch("http://localhost:3000/users");
