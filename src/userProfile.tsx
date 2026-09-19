@@ -2,9 +2,9 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getUserById } from "./apihandlers";
 import DeleteBtn from "./DeleteBtn";
-import EditBtn from "./EditBtn";
-
+import {useNavigate} from "react-router-dom";
 function UserProfile() {
+  const myNavigator = useNavigate();
   const { variableIPutInURL } = useParams();
   const whatWeExtracted = variableIPutInURL || "";
   const { data } = useQuery({
@@ -23,7 +23,7 @@ function UserProfile() {
         <li>salary {data?.salary}</li>
       </ul>
       <DeleteBtn human={data}/>
-      <EditBtn human={data}/>
+      <button onClick={() => myNavigator(`/userList/${whatWeExtracted}/editUser`)}>Edit User</button>
     </>
   );
 }

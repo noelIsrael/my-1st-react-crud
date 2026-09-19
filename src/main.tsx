@@ -7,6 +7,7 @@ import App from "./App.tsx";
 import UserProfile from "./UserProfile.tsx";
 import { UserList } from "./UserList.tsx";
 import AddNew from "./addNew.tsx";
+import EditBtn from "./EditBtn.tsx";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -26,7 +27,11 @@ const router = createBrowserRouter([
       {
         path: "addNew",
         element: <AddNew />,
-      }
+      },
+      {
+        path: ":variableIPutInURL/editUser",
+        element: <EditBtn />,
+      },
     ],
   },
 ]);

@@ -36,6 +36,8 @@ export async function addUser(newUser: Partial<User>) {
     });
     if (!response.ok) {
       throw new Error("Failed to add user: " + response.statusText);
+    } else {
+      console.log("User added successfully");
     }
     const data = await response.json();
     return data;
@@ -51,6 +53,8 @@ export async function deleteUser(id: string) {
     });
     if (!response.ok) {
       throw new Error("Failed to delete user: " + response.statusText);
+    } else {
+      console.log("User deleted successfully");
     }
     const data = await response.json();
     return data;
@@ -71,6 +75,8 @@ export async function editUser(id: string, updatedUser: Partial<User>) {
     });
     if (!response.ok) {
       throw new Error("Failed to edit user: " + response.statusText);
+    } else {
+      console.log("User edited successfully");
     }
     const data = await response.json();
     return data;

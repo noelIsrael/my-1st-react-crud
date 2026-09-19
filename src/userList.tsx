@@ -15,7 +15,7 @@ function Card({ human }: { human: Partial<User> }) {
   return (
     <div>
       <h2>{human.name}</h2>
-      <p>Salary: ${human.salary?.toFixed(2)}</p>
+      <p>Salary: ${human.salary}</p>
     </div>
   );
 }
