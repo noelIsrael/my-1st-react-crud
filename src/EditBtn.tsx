@@ -1,26 +1,36 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { editUser } from "./apihandlers";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { editUser, getUserById } from "./apihandlers";
 import { employeeSchema, type employeeSchemaType } from "./schemas";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-
+import { useParams, useNavigate } from "react-router-dom";
 function EditBtn() {
+  const queryClient = useQueryClient();
+  const myNavigator = useNavigate();
   const { variableIPutInURL } = useParams();
   const whatWeExtracted = variableIPutInURL || "";
-  const myNavigator = useNavigate();
-  const queryClient = useQueryClient();
+
+  const { data: userDefaultValues, isLoading } = useQuery({
+    queryKey: ["user", whatWeExtracted],
+    queryFn: () => getUserById(whatWeExtracted),
+    enabled: Boolean(whatWeExtracted),
+  });
+
   const myMutator = useMutation({
-    mutationFn: ({ newIdentity, whatWeExtracted }: { newIdentity: Partial<employeeSchemaType>; whatWeExtracted: string }) =>
-      editUser(whatWeExtracted, newIdentity),
+    mutationFn: ({
+      newIdentity,
+      whatWeExtracted,
+    }: {
+      newIdentity: Partial<employeeSchemaType>;
+      whatWeExtracted: string;
+    }) => editUser(whatWeExtracted, newIdentity),
     onSettled: () => {
       queryClient.invalidateQueries();
     },
     onSuccess: () => {
       console.log("User updated successfully");
       myNavigator(`/userList`);
-    }
+    },
   });
   const {
     register,
@@ -28,13 +38,17 @@ function EditBtn() {
     formState: { errors },
   } = useForm<employeeSchemaType>({
     resolver: zodResolver(employeeSchema),
+    values: userDefaultValues,
   });
   function onsubmit(data: employeeSchemaType) {
     console.log(data);
     myMutator.mutate({ newIdentity: data, whatWeExtracted });
-    console.log("whatWeExtracted", whatWeExtracted);
   }
-  return(
+  if(isLoading){
+    return <p>Loading</p>
+  }
+
+  return (
     <form onSubmit={handleSubmit(onsubmit)}>
       <label htmlFor="name">New Name:</label>
       <input type="text" id="name" {...register("name")} />
@@ -48,7 +62,9 @@ function EditBtn() {
       />
       {errors.salary && <p>{errors.salary.message}</p>}
       <br />
-      <button type="submit">Submit</button>
+      <button type="submit" disabled={myMutator.isPending}>
+        {(myMutator.isPending && "submitting") || "submit"}
+      </button>
     </form>
   );
 }

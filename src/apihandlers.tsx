@@ -1,4 +1,4 @@
-import type { User } from "./UserList";
+import type { employeeSchemaType } from "./schemas";
 export async function getData() {
   try {
     const response = await fetch("http://localhost:3000/users");
@@ -25,7 +25,7 @@ export async function getUserById(id: string) {
     throw error;
   }
 }
-export async function addUser(newUser: Partial<User>) {
+export async function addUser(newUser: Partial<employeeSchemaType>) {
   try {
     const response = await fetch("http://localhost:3000/users", {
       method: "POST",
@@ -64,7 +64,7 @@ export async function deleteUser(id: string) {
   }
 }
 
-export async function editUser(id: string, updatedUser: Partial<User>) {
+export async function editUser(id: string, updatedUser: Partial<employeeSchemaType>) {
   try {
     const response = await fetch(`http://localhost:3000/users/${id}`, {
       method: "PATCH",

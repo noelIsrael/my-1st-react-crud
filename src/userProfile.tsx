@@ -14,7 +14,7 @@ function UserProfile() {
     refetchOnWindowFocus: true,
     staleTime: 20000,
   });
-  console.log("whatWeExtracted", whatWeExtracted);
+  
 
   return (
     <>
