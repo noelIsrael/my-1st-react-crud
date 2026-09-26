@@ -2,28 +2,33 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getUserById } from "./apihandlers";
 import DeleteBtn from "./DeleteBtn";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function UserProfile() {
   const myNavigator = useNavigate();
   const { variableIPutInURL } = useParams();
   const whatWeExtracted = variableIPutInURL || "";
-  const { data } = useQuery({
+  const { data,  } = useQuery({
     queryKey: ["user", whatWeExtracted],
     queryFn: () => getUserById(whatWeExtracted),
     refetchOnMount: true,
     refetchOnWindowFocus: true,
-    staleTime: 20000,
   });
-  
+  if(!data ){
+    return <p>user dont exist</p>
+  }
 
   return (
     <>
       <ul>
-        <li> name {data?.name}</li>
-        <li>salary {data?.salary}</li>
+        <li> name {data.name}</li>
+        <li>salary {data.salary}</li>
       </ul>
-      <DeleteBtn human={data}/>
-      <button onClick={() => myNavigator(`/userList/${whatWeExtracted}/editUser`)}>Edit User</button>
+      <DeleteBtn human={data} />
+      <button
+        onClick={() => myNavigator(`/userList/${whatWeExtracted}/editUser`)}
+      >
+        Edit User
+      </button>
     </>
   );
 }

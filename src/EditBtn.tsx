@@ -26,6 +26,7 @@ function EditBtn() {
     }) => editUser(whatWeExtracted, newIdentity),
     onSettled: () => {
       queryClient.invalidateQueries();
+      myNavigator(`/userList`);
     },
     onSuccess: () => {
       console.log("User updated successfully");

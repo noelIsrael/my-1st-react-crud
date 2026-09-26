@@ -9,7 +9,6 @@ export async function getData() {
     return data;
   } catch (error) {
     console.error("Error fetching data: ", error);
-    throw error;
   }
 }
 export async function getUserById(id: string) {
@@ -22,7 +21,6 @@ export async function getUserById(id: string) {
     return data;
   } catch (error) {
     console.error("Error fetching user: ", error);
-    throw error;
   }
 }
 export async function addUser(newUser: Partial<employeeSchemaType>) {
@@ -43,7 +41,6 @@ export async function addUser(newUser: Partial<employeeSchemaType>) {
     return data;
   } catch (error) {
     console.error("Error adding user: ", error);
-    throw error;
   }
 }
 export async function deleteUser(id: string) {
@@ -56,11 +53,11 @@ export async function deleteUser(id: string) {
     } else {
       console.log("User deleted successfully");
     }
+    console.log("response issssss :" + response)
     const data = await response.json();
     return data;
   } catch (error) {
     console.error("Error deleting user: ", error);
-    throw error;
   }
 }
 
@@ -82,6 +79,5 @@ export async function editUser(id: string, updatedUser: Partial<employeeSchemaTy
     return data;
   } catch (error) {
     console.error("Error editing user: ", error);
-    throw error;
   }
 }

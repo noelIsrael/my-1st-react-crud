@@ -14,26 +14,17 @@ function DeleteBtn({human}: {human: User}) {
   //the hook need
   const myMutation = useMutation({
     mutationFn: ({ human }: { human: User }) => deleteUser(human.id),
-    onMutate: async ({ human }: { human: User }) => {
-      await queryClient.cancelQueries({ queryKey: ["users"] });
-      const OldDataInCache = queryClient.getQueryData<User[]>(["users"]);
-      queryClient.setQueryData<User[]>(["users"], (oldData) =>
-        oldData ? oldData.filter((user) => user.id !== human.id) : [],
-      );
-      return { OldDataInCache };
-    },
 
     onSuccess: () => {
+      queryClient.removeQueries({queryKey:["user", human.id]})
       queryClient.invalidateQueries({ queryKey: ["users"] });
     },
-    onError: (error, variables, context) => {
+    onError: (error) => {
       console.error("Error deleting user:", error);
-      queryClient.setQueryData(["users"], context?.OldDataInCache);
-      console.log(variables, context?.OldDataInCache);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
-      myNavigator(-1);
+      myNavigator("/userList");
     },
   });
 
